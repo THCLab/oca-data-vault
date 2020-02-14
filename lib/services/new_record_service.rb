@@ -4,20 +4,30 @@ require 'hashlink'
 
 module Services
   class NewRecordService
-    def call(params)
-      data = validate(params)
-      splited_name = data.fetch(:file)[:filename].split('.')
-      type = splited_name.size > 1 ? splited_name.pop : nil
-      name = splited_name.join('.')
+    attr_reader :db_client
 
-      file = data.fetch(:file)[:tempfile]
+    def initialize(db_client)
+      @db_client = db_client
+    end
+
+    def call(raw_params)
+      params = validate(raw_params)
+      name, type = split_name_and_type(params[:file][:filename])
+      file = params[:file][:tempfile]
       content_hashlink = Hashlink.encode(data: file.read).split(':')[1]
       FileUtils.cp(file.path, ROOT_PATH + '/storage/' + content_hashlink)
 
-      link = {
+      data = {
         filename: name, filetype: type, content_hashlink: content_hashlink
       }
-      hashlink = Hashlink.encode(data: link.to_json).split(':')[1]
+      hashlink = Hashlink.encode(data: data.to_json).split(':')[1]
+
+      db_client[:meta].update_one(
+        { _id: hashlink },
+        { _id: hashlink, data: data },
+        upsert: true
+      )
+      hashlink
     end
 
     def validate(params)
@@ -25,6 +35,13 @@ module Services
       {
         file: params['file']
       }
+    end
+
+    private def split_name_and_type(filename)
+      splited_name = filename.split('.')
+      type = splited_name.size > 1 ? splited_name.pop : nil
+      name = splited_name.join('.')
+      [name, type]
     end
   end
 end
