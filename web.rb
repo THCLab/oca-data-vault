@@ -1,6 +1,7 @@
 require 'roda'
 require 'mongo'
 require 'services/new_record_service'
+require 'services/get_record_service'
 
 class Web < Roda
   plugin :json
@@ -19,6 +20,15 @@ class Web < Roda
       hashlink = service.call(r.params)
 
       hashlink
+    end
+
+    r.get String do |hashlink|
+      service = ::Services::GetRecordService.new(db_client)
+      record, file = service.call(hashlink)
+
+      response.headers['Content-Disposition'] =
+        "attachment; filename=\"#{record[:filename]}.#{record[:filetype]}\""
+      file.read
     end
   end
 end
