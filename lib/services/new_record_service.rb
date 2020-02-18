@@ -24,7 +24,7 @@ module Services
 
       db_client[:meta].update_one(
         { _id: hashlink },
-        { _id: hashlink, data: data },
+        data.merge(_id: hashlink),
         upsert: true
       )
       hashlink
