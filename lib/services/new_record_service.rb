@@ -15,7 +15,7 @@ module Services
       name, type = split_name_and_type(params[:file][:filename])
       file = params[:file][:tempfile]
       content_hashlink = Hashlink.encode(data: file.read).split(':')[1]
-      FileUtils.cp(file.path, ROOT_PATH + '/storage/' + content_hashlink)
+      FileUtils.cp(file.path, File.join(STORAGE_PATH, content_hashlink))
 
       data = {
         filename: name, filetype: type, content_hashlink: content_hashlink

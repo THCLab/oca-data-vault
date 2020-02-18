@@ -1,7 +1,5 @@
 require 'roda'
 require 'mongo'
-require 'services/new_record_service'
-require 'services/get_record_service'
 
 class Web < Roda
   plugin :json
