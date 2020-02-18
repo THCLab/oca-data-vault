@@ -6,6 +6,7 @@ COPY Gemfile Gemfile.lock ./
 
 RUN gem install bundler && bundle install
 
-COPY . .
+COPY lib/ ./lib
+COPY config.ru web.rb README.md ./
 
 EXPOSE 9292
