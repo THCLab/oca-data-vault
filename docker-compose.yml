@@ -1,0 +1,36 @@
+version: '3'
+services:
+  oca_data_vault:
+    image: oca-data-vault:latest
+    build: ./
+    command: /bin/bash -c "bundle exec rackup -o 0.0.0.0"
+    ports:
+      - 9292:9292
+    environment:
+      STORAGE_PATH: $STORAGE_PATH
+      STORAGE_DIR: $STORAGE_DIR
+    volumes:
+      - $STORAGE_PATH/$STORAGE_DIR:/usr/src/app/$STORAGE_DIR
+    networks:
+      - odca
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - odca
+
+volumes:
+  mongodb_data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: $MONGODB_DATA_PATH
+
+networks:
+  odca:
+    external: true

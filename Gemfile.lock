@@ -1,6 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    bson (4.7.1)
+    hashlink (0.0.2)
+      multibases (~> 0.3.2)
+      multihashes (~> 0.2)
+    mongo (2.11.3)
+      bson (>= 4.4.2, < 5.0.0)
+    multibases (0.3.2)
+    multicodecs (0.2.0)
+    multihashes (0.2.0)
+      multicodecs (>= 0.2.0, < 1)
     rack (2.1.1)
     roda (3.28.0)
       rack
@@ -9,6 +19,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  hashlink (~> 0.0.2)
+  mongo (~> 2.2)
   roda (~> 3.22)
 
 BUNDLED WITH
