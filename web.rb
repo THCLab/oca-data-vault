@@ -33,7 +33,8 @@ class Web < Roda
         end
 
         r.is do
-          db_client[:meta].find.to_a
+          service = ::Services::GetRecordsService.new(db_client)
+          service.call
         end
       end
     end
