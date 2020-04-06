@@ -1,8 +1,10 @@
 require 'roda'
 require 'mongo'
+require 'plugins/cors'
 
 class Web < Roda
   plugin :json
+  plugin :cors
 
   db_client = Mongo::Client.new(
     ['mongodb:27017'], database: 'files_metadata'
