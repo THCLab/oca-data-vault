@@ -1,7 +1,7 @@
 version: '3'
 services:
   oca_data_vault:
-    image: oca-data-vault:latest
+    image: humancolossus/oca-data-vault
     build: ./
     command: /bin/bash -c "bundle exec rackup -o 0.0.0.0"
     ports:
