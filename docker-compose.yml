@@ -23,6 +23,17 @@ services:
     networks:
       - odca
 
+  swagger:
+    image: swaggerapi/swagger-ui
+    environment:
+      - SWAGGER_JSON=/openapi.yml
+    volumes:
+      - ./openapi.yml:/openapi.yml
+    networks:
+      - odca
+    ports:
+      - 8000:8080
+
 volumes:
   mongodb_data:
     driver: local
