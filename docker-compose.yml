@@ -1,7 +1,7 @@
 version: '3'
 services:
   oca_data_vault:
-    image: oca-data-vault:latest
+    image: humancolossus/oca-data-vault
     build: ./
     command: /bin/bash -c "bundle exec rackup -o 0.0.0.0"
     ports:
@@ -22,6 +22,17 @@ services:
       - mongodb_data:/data/db
     networks:
       - odca
+
+  swagger:
+    image: swaggerapi/swagger-ui
+    environment:
+      - SWAGGER_JSON=/openapi.yml
+    volumes:
+      - ./openapi.yml:/openapi.yml
+    networks:
+      - odca
+    ports:
+      - 8000:8080
 
 volumes:
   mongodb_data:

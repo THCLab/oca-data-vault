@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  description: ''
+  version: 1.0.0
+  title: OCA Data Vault
+servers:
+- url: http://localhost:9292/api
+tags:
+- name: files
+paths:
+  "/files":
+    post:
+      tags:
+      - files
+      summary: Add file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Record DRI
+    get:
+      tags:
+      - files
+      summary: List records
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Record"
+  "/files/{DRI}":
+    get:
+      tags:
+      - files
+      summary: Download file
+      parameters:
+      - name: DRI
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    Record:
+      properties:
+        DRI:
+          type: string
+        file:
+          type: object
+          properties:
+            name:
+              type: string
+            type:
+              type: string
+            contentDRI:
+              type: string
