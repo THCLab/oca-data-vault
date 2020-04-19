@@ -11,32 +11,30 @@ class Web < Roda
   )
 
   route do |r|
-    r.root do
-      r.redirect('api/files')
-    end
-
     r.on 'api' do
-      r.on 'files' do
-        r.get String do |hashlink|
-          service = ::Services::GetRecordService.new(db_client)
-          record, file = service.call(hashlink)
-          return unless record && file
+      r.on 'v1' do
+        r.on 'files' do
+          r.get String do |hashlink|
+            service = ::Services::GetRecordService.new(db_client)
+            record, file = service.call(hashlink)
+            return unless record && file
 
-          response.headers['Content-Disposition'] =
-            "attachment; filename=\"#{record[:filename]}.#{record[:filetype]}\""
-          file.read
-        end
+            response.headers['Content-Disposition'] =
+              "attachment; filename=\"#{record[:filename]}.#{record[:filetype]}\""
+            file.read
+          end
 
-        r.post do
-          service = ::Services::NewRecordService.new(db_client)
-          hashlink = service.call(r.params)
+          r.post do
+            service = ::Services::NewRecordService.new(db_client)
+            hashlink = service.call(r.params)
 
-          hashlink
-        end
+            hashlink
+          end
 
-        r.is do
-          service = ::Services::GetRecordsService.new(db_client)
-          service.call
+          r.is do
+            service = ::Services::GetRecordsService.new(db_client)
+            service.call
+          end
         end
       end
     end
