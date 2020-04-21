@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   title: OCA Data Vault
 servers:
-- url: http://localhost:9292/api
+- url: 'http://data-vault.localhost/api/v1'
 tags:
 - name: files
 paths:
