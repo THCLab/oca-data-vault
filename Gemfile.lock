@@ -11,7 +11,7 @@ GEM
     multicodecs (0.2.0)
     multihashes (0.2.0)
       multicodecs (>= 0.2.0, < 1)
-    rack (2.1.1)
+    rack (2.2.3)
     roda (3.28.0)
       rack
 
