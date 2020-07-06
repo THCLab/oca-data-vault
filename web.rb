@@ -5,7 +5,7 @@ class Web < Roda
   plugin :json
 
   db_client = Mongo::Client.new(
-    ['mongodb:27017'], database: 'files_metadata'
+    [MONGODB_URI], database: 'files_metadata'
   )
 
   route do |r|
