@@ -9,7 +9,7 @@ module Services
     end
 
     def call(hashlink)
-      record = db_client[:meta].find(_id: hashlink).first
+      record = db_client[:meta].find(_id: hashlink).first || db_client[:meta].find(content_hashlink: hashlink).first
       return unless record
       filepath = File.join(STORAGE_PATH, record.fetch('content_hashlink'))
       file = File.open(filepath) if File.file?(filepath)
