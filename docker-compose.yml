@@ -6,11 +6,8 @@ services:
     command: /bin/bash -c "bundle exec rackup -o 0.0.0.0"
     ports:
       - 9292:9292
-    environment:
-      STORAGE_PATH: $STORAGE_PATH
-      STORAGE_DIR: $STORAGE_DIR
     volumes:
-      - $STORAGE_PATH/$STORAGE_DIR:/usr/src/app/$STORAGE_DIR
+      - ./storage:/usr/src/app/storage
     networks:
       - odca
 
