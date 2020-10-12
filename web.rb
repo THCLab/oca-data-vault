@@ -15,7 +15,7 @@ class Web < Roda
           r.get String do |hashlink|
             service = ::Services::GetRecordService.new(db_client)
             record, file = service.call(hashlink)
-            return unless record && file
+            return { errors: ['record not found'] } unless record && file
 
             response.headers['Content-Disposition'] =
               "attachment; filename=\"#{record[:filename]}.#{record[:filetype]}\""
