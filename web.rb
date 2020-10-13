@@ -24,9 +24,7 @@ class Web < Roda
 
           r.post do
             service = ::Services::NewRecordService.new(db_client)
-            hashlink = service.call(r.params)
-
-            hashlink
+            service.call(r.params)
           end
 
           r.is do

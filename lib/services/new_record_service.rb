@@ -27,7 +27,10 @@ module Services
         data.merge(_id: hashlink),
         upsert: true
       )
-      hashlink
+      {
+        record_dri: hashlink,
+        content_dri: content_hashlink
+      }
     end
 
     def validate(params)
