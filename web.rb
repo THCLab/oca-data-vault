@@ -13,7 +13,7 @@ class Web < Roda
       r.on 'v1' do
         r.on 'files' do
           r.get String do |hashlink|
-            service = ::Services::GetRecordService.new(db_client)
+            service = ::Services::V1::GetRecordService.new(db_client)
             record, file = service.call(hashlink)
             return { errors: ['record not found'] } unless record && file
 
@@ -23,13 +23,32 @@ class Web < Roda
           end
 
           r.post do
-            service = ::Services::NewRecordService.new(db_client)
+            service = ::Services::V1::NewRecordService.new(db_client)
             service.call(r.params)
           end
 
           r.is do
-            service = ::Services::GetRecordsService.new(db_client)
+            service = ::Services::V1::GetRecordsService.new(db_client)
             service.call
+          end
+        end
+      end
+
+      r.on 'v2' do
+        r.on 'files' do
+          r.get String do |sai|
+            service = ::Services::V2::GetRecordService.new()
+            file = service.call(sai)
+            return { errors: ['record not found'] } unless file
+
+            response.headers['Content-Disposition'] =
+              "attachment; filename=\"#{sai}.json\""
+            file.read
+          end
+
+          r.post do
+            service = ::Services::V2::NewRecordService.new(::SaiGenerator)
+            service.call(r.params)
           end
         end
       end

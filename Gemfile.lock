@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     bson (4.7.1)
+    digest-blake3 (0.37.0.1)
     hashlink (0.0.2)
       multibases (~> 0.3.2)
       multihashes (~> 0.2)
@@ -19,9 +20,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  digest-blake3
   hashlink (~> 0.0.2)
   mongo (~> 2.2)
   roda (~> 3.22)
 
 BUNDLED WITH
-   2.1.4
+   2.2.4
