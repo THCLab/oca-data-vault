@@ -1,5 +1,6 @@
 require 'roda'
 require 'mongo'
+require 'mime/types'
 
 class Web < Roda
   plugin :json
@@ -16,7 +17,7 @@ class Web < Roda
             service = ::Services::V1::GetRecordService.new(db_client)
             record, file = service.call(hashlink)
             return { errors: ['record not found'] } unless record && file
-
+            response.headers['Content-Type'] = MIME::Types.type_for(record[:filetype]).first&.content_type || 'text/plain'
             response.headers['Content-Disposition'] =
               "attachment; filename=\"#{record[:filename]}.#{record[:filetype]}\""
             file.read
