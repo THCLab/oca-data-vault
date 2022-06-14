@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   title: OCA Data Vault
 servers:
-- url: 'http://data-vault.localhost/api/v1'
+- url: 'http://localhost:9292/api/v1'
 tags:
 - name: files
 paths:
@@ -61,7 +61,7 @@ components:
   schemas:
     Record:
       properties:
-        DRI:
+        record_sai:
           type: string
         file:
           type: object
@@ -70,5 +70,5 @@ components:
               type: string
             type:
               type: string
-            contentDRI:
+            content_sai:
               type: string

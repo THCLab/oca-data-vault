@@ -9,7 +9,7 @@ services:
     volumes:
       - ./storage:/usr/src/app/storage
     networks:
-      - odca
+      - oca
 
   mongodb:
     image: mongo:latest
@@ -18,17 +18,16 @@ services:
     volumes:
       - mongodb_data:/data/db
     networks:
-      - odca
+      - oca
 
   swagger:
     image: swaggerapi/swagger-ui
     environment:
-      - SWAGGER_JSON=/openapi-2.0.0.yml
+      - SWAGGER_JSON=/openapi-1.0.0.yml
     volumes:
-      - ./openapi-2.0.0.yml:/openapi-2.0.0.yml
-      - ./openapi-1.0.0.yml:/usr/share/nginx/html/openapi-1.0.0.yml
+      - ./openapi-1.0.0.yml:/openapi-1.0.0.yml
     networks:
-      - odca
+      - oca
     ports:
       - 8000:8080
 
@@ -41,5 +40,4 @@ volumes:
       device: $MONGODB_DATA_PATH
 
 networks:
-  odca:
-    external: true
+  oca:
