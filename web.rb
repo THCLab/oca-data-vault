@@ -24,7 +24,7 @@ class Web < Roda
           end
 
           r.post do
-            service = ::Services::V1::NewRecordService.new(db_client)
+            service = ::Services::V1::NewRecordService.new(db_client, ::SaiGenerator)
             service.call(r.params)
           end
 

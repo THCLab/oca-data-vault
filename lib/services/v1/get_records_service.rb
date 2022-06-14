@@ -13,11 +13,11 @@ module Services
         records = db_client[:meta].find.to_a
         records.map do |record|
           {
-            DRI: record[:_id],
+            record_sai: record[:_id],
             file: {
               name: record[:filename],
               type: record[:filetype],
-              contentDRI: record[:content_hashlink]
+              content_sai: record[:content_hashlink]
             }
           }
         end

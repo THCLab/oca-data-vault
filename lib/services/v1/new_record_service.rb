@@ -1,36 +1,35 @@
 # frozen_string_literal: true
 
-require 'hashlink'
-
 module Services
   module V1
     class NewRecordService
-      attr_reader :db_client
+      attr_reader :db_client, :hashlink_generator
 
-      def initialize(db_client)
+      def initialize(db_client, hashlink_generator)
         @db_client = db_client
+        @hashlink_generator = hashlink_generator
       end
 
       def call(raw_params)
         params = validate(raw_params)
         name, type = split_name_and_type(params[:file][:filename])
         file = params[:file][:tempfile]
-        content_hashlink = Hashlink.encode(data: file.read).split(':')[1]
+        content_hashlink = hashlink_generator.call(file.read)
         FileUtils.cp(file.path, File.join(STORAGE_PATH, content_hashlink))
 
         data = {
           filename: name, filetype: type, content_hashlink: content_hashlink
         }
-        hashlink = Hashlink.encode(data: data.to_json).split(':')[1]
+        record_hashlink = hashlink_generator.call(data.to_json)
 
         db_client[:meta].update_one(
-          { _id: hashlink },
-          data.merge(_id: hashlink),
+          { _id: record_hashlink },
+          data.merge(_id: record_hashlink),
           upsert: true
         )
         {
-          record_dri: hashlink,
-          content_dri: content_hashlink
+          record_sai: record_hashlink,
+          content_sai: content_hashlink
         }
       end
 
