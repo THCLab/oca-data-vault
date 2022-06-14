@@ -34,25 +34,6 @@ class Web < Roda
           end
         end
       end
-
-      r.on 'v2' do
-        r.on 'files' do
-          r.get String do |sai|
-            service = ::Services::V2::GetRecordService.new()
-            file = service.call(sai)
-            return { errors: ['record not found'] } unless file
-
-            response.headers['Content-Disposition'] =
-              "attachment; filename=\"#{sai}.json\""
-            file.read
-          end
-
-          r.post do
-            service = ::Services::V2::NewRecordService.new(::SaiGenerator)
-            service.call(r.params)
-          end
-        end
-      end
     end
   end
 end
