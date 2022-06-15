@@ -2,7 +2,10 @@ require 'roda'
 require 'mongo'
 require 'mime/types'
 
+require 'plugins/cors'
+
 class Web < Roda
+  plugin :cors
   plugin :json
 
   db_client = Mongo::Client.new(
