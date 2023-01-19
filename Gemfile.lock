@@ -8,7 +8,10 @@ GEM
     mime-types-data (3.2022.0105)
     mongo (2.17.1)
       bson (>= 4.8.2, < 5.0.0)
-    rack (2.2.3.1)
+    nio4r (2.5.8)
+    puma (5.6.5)
+      nio4r (~> 2.0)
+    rack (3.0.4.1)
     roda (3.57.0)
       rack
 
@@ -19,6 +22,7 @@ DEPENDENCIES
   digest-blake3
   mime-types (~> 3.4)
   mongo (~> 2.2)
+  puma (~> 5.6)
   roda (~> 3.22)
 
 BUNDLED WITH
